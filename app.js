@@ -1,4 +1,4 @@
-import { Game, playerColor } from './game.js?v=5'
+import { Game, playerColor } from './game.js?v=6'
 
 const $ = (id) => document.getElementById(id)
 const game = new Game({ onChange: render })
@@ -178,11 +178,16 @@ function showInstall() {
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
   $('install-confirm').hidden = !installEvent
   $('install-instructions').replaceChildren()
+  $('install-instructions').classList.toggle('has-iphone-guide', ios && !installEvent)
   if (!installEvent) {
-    const text = ios
-      ? 'On iPhone or iPad: open this page in Safari, tap Share, then Add to Home Screen. Turn on “Open as Web App” if offered, then tap Add.'
-      : 'Open your browser’s menu and choose “Install app” or “Add to Home Screen”. On desktop, look for the install icon in the address bar. You can also keep playing right here.'
-    $('install-instructions').textContent = text
+    if (ios) $('install-instructions').append($('iphone-install-guide').content.cloneNode(true))
+    else {
+      $('install-instructions').append(document.createTextNode('Open your browser’s menu and choose “Install app” or “Add to Home Screen”. On desktop, look for the install icon in the address bar. You can also keep playing right here.'))
+      const details = document.createElement('details')
+      details.className = 'iphone-guide-disclosure'
+      details.append(Object.assign(document.createElement('summary'), { textContent: 'Installing on iPhone or iPad?' }), $('iphone-install-guide').content.cloneNode(true))
+      $('install-instructions').append(details)
+    }
   }
   $('install-dialog').showModal()
 }
@@ -197,7 +202,7 @@ $('install-confirm').addEventListener('click', async () => {
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault()
   installEvent = event
-  if ($('install-dialog').open) { $('install-confirm').hidden = false; $('install-instructions').textContent = '' }
+  if ($('install-dialog').open) { $('install-confirm').hidden = false; $('install-instructions').replaceChildren(); $('install-instructions').classList.remove('has-iphone-guide') }
 })
 window.addEventListener('appinstalled', () => { installed = true; $('install-dialog').close(); $('install-open').hidden = true })
 

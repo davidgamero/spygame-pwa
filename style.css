@@ -25,3 +25,37 @@ dialog{width:min(440px,calc(100% - 32px));max-height:calc(100dvh - 32px);max-hei
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media(max-width:360px){.masthead{gap:10px}.wordmark{font-size:1.35rem;gap:8px}.wordmark svg{width:24px;height:26px}}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}.wordmark{min-width:0;max-width:100%;overflow:hidden}.wordmark svg{flex-shrink:0}.wordmark>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.banner-actions>button{position:static;transform:none;flex-shrink:0}.banner-actions .icon-button{width:44px;min-width:44px}
+
+/* Non-interactive iPhone control illustrations; instructions remain real text. */
+#install-dialog{--dialog-padding:24px}
+#install-dialog .dialog-header{position:sticky;top:calc(-1 * var(--dialog-padding));z-index:2;background:var(--panel);padding-block:8px}
+.install-instructions.has-iphone-guide{padding:0;border:0;background:transparent}
+.iphone-guide-intro{margin:0 0 8px}
+.iphone-guide .iphone-example-note{font-size:.75rem;color:var(--muted);margin:0 0 20px}
+.install-steps{list-style:none;padding:0;margin:0;display:grid;gap:26px}
+.install-steps li{min-width:0}
+.install-steps h3{display:flex;align-items:center;gap:10px;font:700 1rem/1.4 Body,system-ui,sans-serif;margin:0 0 12px;color:var(--paper)}
+.install-step-number{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:var(--paper);color:var(--paper-ink);font-size:.75rem}
+.install-steps li>p{font-size:.8125rem;line-height:1.55;margin:10px 0 0}
+.ios-example{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1c1c1e;background:#f2f2f7;border:1px solid #d1d1d6;border-radius:13px;overflow:hidden;box-shadow:0 2px 6px #0002;user-select:none}
+.ios-example svg{width:24px;height:24px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ios-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) minmax(52px,1.3fr) repeat(2,minmax(0,1fr));align-items:center;justify-items:center;gap:4px;padding:12px 8px;color:#007aff}
+.ios-toolbar>svg{width:21px;height:24px}
+.ios-toolbar .ios-dim{color:#8e8e93}
+.ios-share-target{display:flex;flex-direction:column;align-items:center;gap:5px;border:2px solid #007aff;border-radius:10px;background:#e5f0ff;min-width:52px;padding:8px 4px;color:#0060c7;font-size:10px;font-weight:600;line-height:1.1}
+.ios-inline-symbol{white-space:nowrap;letter-spacing:1px;background:#303742;color:var(--paper);padding:1px 5px;border-radius:5px}
+.ios-sheet{padding:8px 10px 12px;background:#e5e5ea}
+.ios-sheet-handle{display:block;width:30px;height:4px;margin:0 auto 12px;border-radius:5px;background:#aeaeb2}
+.ios-menu-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:white;padding:15px 12px;border-radius:9px;font-size:14px;line-height:1.4}
+.ios-menu-row>span{min-width:0;overflow-wrap:anywhere}
+.ios-confirm-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d1d1d6;padding:12px;font-size:12px;line-height:1.4;font-weight:600}
+.ios-confirm-nav strong{display:block;background:#007aff;color:#fff;padding:6px 12px;border-radius:18px;font-size:13px;flex-shrink:0}
+.ios-app-row{display:flex;align-items:center;gap:12px;padding:16px 12px;font-size:15px}
+.ios-app-row img{border-radius:8px;flex-shrink:0}
+.ios-web-app{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 10px 12px;padding:12px 10px;background:white;border-radius:9px;font-size:12px;line-height:1.4}
+.ios-switch{position:relative;display:block;width:40px;height:25px;border-radius:20px;flex-shrink:0;background:#34c759}
+.ios-switch::after{content:'';position:absolute;right:2px;top:2px;width:21px;height:21px;background:white;box-shadow:0 1px 3px #0002;border-radius:50%}
+.iphone-guide-disclosure{margin-top:16px;border-top:1px solid var(--line);padding-top:8px}
+.iphone-guide-disclosure summary{min-height:44px;padding-block:10px;cursor:pointer;color:var(--paper);font-weight:700;font-size:.875rem}
+.iphone-guide-disclosure .iphone-guide{padding-top:12px}
+@media(max-width:360px){#install-dialog{--dialog-padding:20px}.ios-menu-row{padding-inline:10px;font-size:13px}.ios-example svg{width:21px;height:21px}}

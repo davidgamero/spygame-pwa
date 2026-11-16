@@ -105,6 +105,13 @@ try {
   await ios.goto(base)
   await ios.getByRole('button', { name: 'Install app', exact: true }).click()
   await ios.getByText('On iPhone or iPad:', { exact: false }).waitFor()
+  assert.equal(await ios.locator('#install-dialog .ios-example').count(), 3)
+  await ios.getByRole('img', { name: /Example Safari toolbar/ }).waitFor()
+  assert.equal(await ios.locator('#install-dialog .ios-example button').count(), 0, 'illustrations are examples, not fake interactive controls')
+  for (const width of [280, 320, 390]) {
+    await ios.setViewportSize({ width, height: 653 })
+    assert.equal(await ios.locator('#install-dialog').evaluate((dialog) => dialog.scrollWidth > dialog.clientWidth), false, 'visual guide fits narrow displays')
+  }
   await ios.getByRole('button', { name: 'Not now', exact: true }).click()
   assert.equal(await ios.locator('#install-dialog').evaluate((dialog) => dialog.open), false)
   await ios.close()

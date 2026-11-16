@@ -1,6 +1,6 @@
-const CACHE = 'spy-pass-v5'
+const CACHE = 'spy-pass-v6'
 const ASSETS = [
-  './', './index.html', './style.css?v=5', './app.js?v=5', './game.js?v=5', './manifest.webmanifest',
+  './', './index.html', './style.css?v=6', './app.js?v=6', './game.js?v=6', './manifest.webmanifest',
   './fonts/display-700.ttf', './fonts/display-900.ttf',
   './fonts/body-400.ttf', './fonts/body-500.ttf', './fonts/body-700.ttf',
   './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png',

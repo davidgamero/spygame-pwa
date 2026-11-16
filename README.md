@@ -19,8 +19,10 @@ hides it and advances to the next player. Duplicate names are allowed.
 
 Tap **Install** in the top banner to open the dismissible install popup. It never
 opens automatically on launch or when the browser reports installation is available.
-It uses the browser install prompt when supported; on iPhone/iPad it explains
-Safari → Share → Add to Home Screen. Installed apps hide the Install button.
+It uses the browser install prompt when supported; on iPhone/iPad it illustrates
+Safari → Share → Add to Home Screen → Add with iPhone-style toolbar and menu
+examples. These are non-interactive diagrams, not live system controls. Other
+browsers also offer an expandable iPhone guide. Installed apps hide the Install button.
 The service worker caches the app, fonts, and icons
 for offline play after the first successful load. It never caches game state.
 
