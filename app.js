@@ -1,4 +1,4 @@
-import { Game, playerColor } from './game.js'
+import { Game, playerColor } from './game.js?v=4'
 
 const $ = (id) => document.getElementById(id)
 const game = new Game({ onChange: render })
@@ -202,9 +202,23 @@ window.addEventListener('appinstalled', () => { installed = true; $('install-dia
 
 render()
 if ('serviceWorker' in navigator) {
+  const alreadyControlled = !!navigator.serviceWorker.controller
+  let reloading = false
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!alreadyControlled || reloading) return
+    if (game.phase === 'setup' && !game.names.length && !$('name-input').value && !document.querySelector('dialog[open]')) {
+      reloading = true
+      window.location.reload()
+    } else $('update-button').hidden = false
+  })
+  $('update-button').addEventListener('click', () => {
+    if (game.names.length && !window.confirm('Reload to update Spy Pass? This will clear the names on this phone.')) return
+    window.location.reload()
+  })
   window.addEventListener('load', async () => {
     try {
-      await navigator.serviceWorker.register('./sw.js')
+      const registration = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+      void registration.update().catch(() => {})
       await navigator.serviceWorker.ready
       $('offline-status').textContent = 'Ready for offline play'
     } catch { $('offline-status').textContent = 'Offline setup unavailable. Keep this page open to play.' }

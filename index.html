@@ -12,8 +12,8 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="preload" href="./fonts/display-900.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js"></script>
+  <link rel="stylesheet" href="./style.css?v=4">
+  <script type="module" src="./app.js?v=4"></script>
   <title>Spy Pass — spygame</title>
 </head>
 <body>
@@ -62,7 +62,7 @@
       </section>
     </main>
 
-    <footer class="site-footer"><span>Trust no one. Pass it on.</span><span id="offline-status" class="offline-status" role="status"></span></footer>
+    <footer class="site-footer"><span>Trust no one. Pass it on.</span><span id="offline-status" class="offline-status" role="status"></span><button id="update-button" class="text-button" type="button" hidden>Update available · reload when ready</button></footer>
   </div>
 
   <dialog id="help-dialog" aria-labelledby="help-heading"><div class="dialog-header"><p class="eyebrow">Field guide</p><button class="icon-button dialog-close" type="button" aria-label="Close how to play">×</button></div><h2 id="help-heading">How to play</h2><ol class="instructions"><li><strong>Add one name each.</strong> It can be a person, a place, or anything else. Names stay hidden.</li><li><strong>Pass the phone in order.</strong> Player 1 goes first. Look at your own card for 3.5 seconds, then pass it on.</li><li><strong>Give clues. Find the spy.</strong> Everyone sees the same name except one randomly chosen player, who sees “SPY”. The spy tries to guess the name.</li><li><strong>Make your guesses.</strong> When you’re ready, reveal the answer and play again.</li></ol><p class="dialog-note">Duplicates are allowed. The spy might be the person who entered the picked name. Names stay on this device and disappear when you reload.</p><button class="button primary dialog-close" type="button">Got it</button></dialog>

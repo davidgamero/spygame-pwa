@@ -49,5 +49,8 @@ The app itself has no runtime dependencies or build step. GitHub Pages serves
 the repository’s `main` branch at `/`; `.nojekyll` keeps the static files intact.
 All URLs and the PWA scope are relative so the project works at `/spygame-pwa/`.
 
-When releasing changed assets, increment the cache version in `sw.js`. An update
-waits for existing windows to close rather than reloading an active round.
+When releasing changed assets, increment the cache version and asset query
+versions in `sw.js`, `index.html`, and the `app.js` import. Online navigation
+checks for the current page; offline navigation uses the cached release. New
+workers activate promptly. An empty setup screen may reload automatically;
+entered names and active rounds are preserved until the player chooses to reload.
