@@ -1,4 +1,4 @@
-import { Game, playerColor } from './game.js?v=4'
+import { Game, playerColor } from './game.js?v=5'
 
 const $ = (id) => document.getElementById(id)
 const game = new Game({ onChange: render })
@@ -158,6 +158,7 @@ $('change-button').addEventListener('click', () => game.quit())
 $('answer-button').addEventListener('click', () => { game.revealAnswer(); if (game.showAnswer) { $('answer-heading').tabIndex = -1; $('answer-heading').focus() } })
 document.querySelector('.wordmark').addEventListener('click', (event) => { event.preventDefault(); game.quit() })
 $('help-button').addEventListener('click', () => { game.conceal(); $('help-dialog').showModal() })
+$('setup-help-button').addEventListener('click', () => { game.conceal(); $('help-dialog').showModal() })
 
 // Cover both tab switching and bfcache/app switching. No visible secret is restored.
 document.addEventListener('visibilitychange', () => { if (document.hidden) { game.conceal(); $('name-input').value = '' } })
