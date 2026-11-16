@@ -12,6 +12,13 @@ try {
     const errors = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.goto(base)
+    const header = await page.locator('.masthead').evaluate((element) => {
+      const bounds = (selector) => { const { left, right, width, height } = element.querySelector(selector).getBoundingClientRect(); return { left, right, width, height } }
+      return { brand: bounds('.wordmark'), install: bounds('#install-open'), help: bounds('#help-button'), viewport: innerWidth }
+    })
+    assert.ok(header.brand.right <= header.install.left, 'brand and Install button must not overlap')
+    assert.ok(header.install.right <= header.help.left && header.help.right <= header.viewport, 'header actions must fit the screen')
+    assert.ok(header.install.width >= 44 && header.install.height >= 44 && header.help.width >= 44 && header.help.height >= 44, 'header actions remain touch-sized')
     await page.clock.install()
     await page.clock.fastForward(2500)
     assert.equal(await page.locator('#install-dialog').evaluate((dialog) => dialog.open), false, 'no popup on launch')
@@ -61,7 +68,7 @@ try {
     await page.waitForFunction(() => !!navigator.serviceWorker.controller)
     await page.context().setOffline(true)
     await page.reload()
-    await page.getByRole('heading', { name: 'One name. One spy.' }).waitFor()
+    await page.getByRole('heading', { name: 'Party game · 3+ players' }).waitFor()
     assert.equal(await page.locator('.name-row').count(), 0, 'names are not persisted')
     assert.deepEqual(errors, [])
     console.log(`PASS ${width}×${height}: install dismissal, privacy, deal, reveal, hand-off, replay, quit, offline reload`)
