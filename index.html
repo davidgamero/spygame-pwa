@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0E1116">
+  <meta name="description" content="One phone. One secret name. One spy. A private, offline party game for 3 or more players.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Spy Pass">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="preload" href="./fonts/display-900.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+  <title>Spy Pass — spygame</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead">
+      <a class="wordmark" href="./" aria-label="Spy Pass home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="4" width="19" height="25" rx="3" transform="rotate(-10 16 16)"/><rect x="10" y="3" width="18" height="25" rx="3"/><path d="M14 12h10M14 16h10M14 20h6"/></svg><span>SPY PASS<span class="brand-period">.</span></span></a>
+      <button type="button" class="icon-button" id="help-button" aria-label="How to play">?</button>
+    </header>
+
+    <main id="main">
+      <section id="setup" aria-labelledby="setup-heading">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Party game · 3+ players</p>
+        <h1 id="setup-heading" tabindex="-1">One name.<br>One <span class="accent">spy.</span></h1>
+        <p class="intro">Each player secretly adds a name, then passes the phone. Everyone sees the same picked name. Except the spy.</p>
+        <form id="name-form" autocomplete="off">
+          <label for="name-input" class="field-label" id="entry-label">Player 1, add your name</label>
+          <div class="input-row"><input id="name-input" name="name" type="text" placeholder="Type a name" maxlength="40" enterkeyhint="done" autocapitalize="sentences" autocomplete="off" autocorrect="off" spellcheck="false" aria-describedby="entry-help"><button type="submit" class="add-button">Add <span aria-hidden="true">+</span></button></div>
+          <p class="input-help" id="entry-help">A person, place, thing… anything. Keep it secret.</p>
+        </form>
+        <div class="list-heading"><h2 id="player-count"><strong>0</strong> players</h2><button class="text-button" type="button" id="toggle-names" aria-pressed="false" aria-controls="name-list">Show names</button></div>
+        <ol class="name-list" id="name-list" aria-label="Players and their names"></ol>
+        <p class="empty-state" id="empty-state"><span aria-hidden="true">—</span>No names yet.<br>Pass the phone to the first player.</p>
+        <p id="entry-status" class="entry-status" role="status" aria-live="polite"></p>
+        <div class="setup-footer"><button class="button primary" id="deal-button" type="button" disabled>Need 3 players to start</button><p class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>One phone. No accounts. Just your group.</p></div>
+      </section>
+
+      <section id="deal" hidden aria-labelledby="deal-heading">
+        <div class="deal-top"><p class="eyebrow" id="player-position"></p><button class="text-button" id="quit-button" type="button">Quit</button></div>
+        <h1 class="deal-heading" id="deal-heading" tabindex="-1"></h1>
+        <button id="card" class="card" type="button" aria-label="Show my card">
+          <span class="card-top" id="card-top"></span>
+          <span class="card-center" id="card-center"></span>
+          <span class="card-bottom" id="card-bottom"></span>
+          <span class="countdown" id="countdown" hidden aria-hidden="true"><span></span></span>
+        </button>
+        <button class="button show-card" type="button" id="show-card-button"><span>Show my card <span aria-hidden="true">↗</span></span><small id="show-card-subtitle"></small></button>
+        <p class="deal-footnote" id="deal-footnote"></p>
+      </section>
+
+      <section id="done" hidden aria-labelledby="done-heading">
+        <p class="eyebrow" id="done-eyebrow"></p>
+        <h1 id="done-heading" tabindex="-1">Start<br><span class="accent">talking.</span></h1>
+        <p class="intro">Take turns giving clues without saying the name. Find the spy before the spy works it out.</p>
+        <div class="discussion-note"><span class="dossier-tag">Your mission</span><p>Be specific enough to prove you know.<br>Vague enough to keep the spy guessing.</p></div>
+        <div id="answer-panel" class="answer-panel" hidden aria-labelledby="answer-heading"><h2 class="eyebrow" id="answer-heading">Case closed</h2><p>The spy was <strong id="spy-answer"></strong></p><p>The name was</p><strong class="secret-answer" id="name-answer"></strong></div>
+        <div class="done-actions"><button class="button secondary" id="answer-button" type="button">Reveal the answer <span aria-hidden="true">↗</span></button><button class="button primary" id="again-button" type="button">Deal again with the same names <span aria-hidden="true">↻</span></button><button class="text-button" id="change-button" type="button">Change names</button></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>Trust no one. Pass it on.</span><button class="text-button" id="install-open" type="button">Install app</button><span id="offline-status" class="offline-status" role="status"></span></footer>
+  </div>
+
+  <dialog id="help-dialog" aria-labelledby="help-heading"><div class="dialog-header"><p class="eyebrow">Field guide</p><button class="icon-button dialog-close" type="button" aria-label="Close how to play">×</button></div><h2 id="help-heading">How to play</h2><ol class="instructions"><li><strong>Add one name each.</strong> It can be a person, a place, or anything else. Names stay hidden.</li><li><strong>Pass the phone in order.</strong> Player 1 goes first. Look at your own card for 3.5 seconds, then pass it on.</li><li><strong>Give clues. Find the spy.</strong> Everyone sees the same name except one randomly chosen player, who sees “SPY”. The spy tries to guess the name.</li><li><strong>Make your guesses.</strong> When you’re ready, reveal the answer and play again.</li></ol><p class="dialog-note">Duplicates are allowed. The spy might be the person who entered the picked name. Names stay on this device and disappear when you reload.</p><button class="button primary dialog-close" type="button">Got it</button></dialog>
+
+  <dialog id="install-dialog" aria-labelledby="install-heading" aria-describedby="install-description"><div class="dialog-header"><p class="eyebrow">Always ready for a game</p><button class="icon-button dialog-close" type="button" aria-label="Dismiss install popup">×</button></div><img class="install-icon" src="./icons/icon-192.png" width="64" height="64" alt=""><h2 id="install-heading">Keep Spy Pass<br>in your pocket.</h2><p id="install-description">Add it to your home screen for full-screen, offline play. No account needed.</p><div id="install-instructions" class="install-instructions"></div><button id="install-confirm" class="button primary" type="button" hidden>Install Spy Pass</button><button class="button secondary dialog-close" type="button">Not now</button><p class="dialog-note">You can install later from the bottom of the setup screen.</p></dialog>
+  <noscript><p class="noscript">Spy Pass needs JavaScript to deal cards privately. Enable JavaScript and reload to play.</p></noscript>
+</body>
+</html>
