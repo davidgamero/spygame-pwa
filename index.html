@@ -20,7 +20,7 @@
   <div class="app-shell">
     <header class="masthead">
       <a class="wordmark" href="./" aria-label="Spy Pass home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="4" width="19" height="25" rx="3" transform="rotate(-10 16 16)"/><rect x="10" y="3" width="18" height="25" rx="3"/><path d="M14 12h10M14 16h10M14 20h6"/></svg><span>SPY PASS<span class="brand-period">.</span></span></a>
-      <button type="button" class="icon-button" id="help-button" aria-label="How to play">?</button>
+      <div class="banner-actions"><button type="button" class="install-button" id="install-open" aria-label="Install app" aria-haspopup="dialog" aria-controls="install-dialog">Install</button><button type="button" class="icon-button" id="help-button" aria-label="How to play">?</button></div>
     </header>
 
     <main id="main">
@@ -63,12 +63,12 @@
       </section>
     </main>
 
-    <footer class="site-footer"><span>Trust no one. Pass it on.</span><button class="text-button" id="install-open" type="button">Install app</button><span id="offline-status" class="offline-status" role="status"></span></footer>
+    <footer class="site-footer"><span>Trust no one. Pass it on.</span><span id="offline-status" class="offline-status" role="status"></span></footer>
   </div>
 
   <dialog id="help-dialog" aria-labelledby="help-heading"><div class="dialog-header"><p class="eyebrow">Field guide</p><button class="icon-button dialog-close" type="button" aria-label="Close how to play">×</button></div><h2 id="help-heading">How to play</h2><ol class="instructions"><li><strong>Add one name each.</strong> It can be a person, a place, or anything else. Names stay hidden.</li><li><strong>Pass the phone in order.</strong> Player 1 goes first. Look at your own card for 3.5 seconds, then pass it on.</li><li><strong>Give clues. Find the spy.</strong> Everyone sees the same name except one randomly chosen player, who sees “SPY”. The spy tries to guess the name.</li><li><strong>Make your guesses.</strong> When you’re ready, reveal the answer and play again.</li></ol><p class="dialog-note">Duplicates are allowed. The spy might be the person who entered the picked name. Names stay on this device and disappear when you reload.</p><button class="button primary dialog-close" type="button">Got it</button></dialog>
 
-  <dialog id="install-dialog" aria-labelledby="install-heading" aria-describedby="install-description"><div class="dialog-header"><p class="eyebrow">Always ready for a game</p><button class="icon-button dialog-close" type="button" aria-label="Dismiss install popup">×</button></div><img class="install-icon" src="./icons/icon-192.png" width="64" height="64" alt=""><h2 id="install-heading">Keep Spy Pass<br>in your pocket.</h2><p id="install-description">Add it to your home screen for full-screen, offline play. No account needed.</p><div id="install-instructions" class="install-instructions"></div><button id="install-confirm" class="button primary" type="button" hidden>Install Spy Pass</button><button class="button secondary dialog-close" type="button">Not now</button><p class="dialog-note">You can install later from the bottom of the setup screen.</p></dialog>
+  <dialog id="install-dialog" aria-labelledby="install-heading" aria-describedby="install-description"><div class="dialog-header"><p class="eyebrow">Always ready for a game</p><button class="icon-button dialog-close" type="button" aria-label="Dismiss install popup">×</button></div><img class="install-icon" src="./icons/icon-192.png" width="64" height="64" alt=""><h2 id="install-heading">Keep Spy Pass<br>in your pocket.</h2><p id="install-description">Add it to your home screen for full-screen, offline play. No account needed.</p><div id="install-instructions" class="install-instructions"></div><button id="install-confirm" class="button primary" type="button" hidden>Install Spy Pass</button><button class="button secondary dialog-close" type="button">Not now</button><p class="dialog-note">Tap Install in the top banner whenever you’re ready.</p></dialog>
   <noscript><p class="noscript">Spy Pass needs JavaScript to deal cards privately. Enable JavaScript and reload to play.</p></noscript>
 </body>
 </html>

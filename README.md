@@ -17,10 +17,11 @@ hides it and advances to the next player. Duplicate names are allowed.
 
 ## Install / offline
 
-The dismissible install popup uses the browser install prompt when supported.
-On iPhone/iPad it explains Safari → Share → Add to Home Screen. Dismissal is
-remembered; **Install app** in the footer reopens the instructions. Installed
-apps do not show the popup. The service worker caches the app, fonts, and icons
+Tap **Install** in the top banner to open the dismissible install popup. It never
+opens automatically on launch or when the browser reports installation is available.
+It uses the browser install prompt when supported; on iPhone/iPad it explains
+Safari → Share → Add to Home Screen. Installed apps hide the Install button.
+The service worker caches the app, fonts, and icons
 for offline play after the first successful load. It never caches game state.
 
 ## Reference

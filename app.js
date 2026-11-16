@@ -3,13 +3,11 @@ import { Game, playerColor } from './game.js'
 const $ = (id) => document.getElementById(id)
 const game = new Game({ onChange: render })
 let lastPhase = '', lastPlayer = -1, unlockTimer = null
-let installEvent = null, installTimer = null
-const dismissedKey = 'spy-pass-install-dismissed-v1'
+let installEvent = null
 const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true
+let installed = standalone()
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
 const vibrate = (pattern) => { if (!reducedMotion()) navigator.vibrate?.(pattern) }
-function wasDismissed() { try { return localStorage.getItem(dismissedKey) === 'yes' } catch { return false } }
-function dismissInstall() { try { localStorage.setItem(dismissedKey, 'yes') } catch { /* Storage is optional. */ } }
 
 function updateSetup() {
   const count = game.names.length
@@ -113,6 +111,7 @@ function render() {
   for (const phase of ['setup', 'deal', 'done']) $(phase).hidden = phase !== game.phase
   document.body.dataset.phase = game.phase
   $('help-button').hidden = game.phase === 'deal'
+  $('install-open').hidden = installed || game.phase === 'deal'
   document.querySelector('.site-footer').hidden = game.phase === 'deal'
   if (game.phase === 'setup') updateSetup()
   if (game.phase === 'deal') updateDeal()
@@ -148,7 +147,7 @@ $('name-input').addEventListener('paste', (event) => {
   if (/[\r\n,]/.test(text)) { event.preventDefault(); add(text) }
 })
 $('toggle-names').addEventListener('click', () => game.toggleNames())
-function deal() { clearTimeout(installTimer); $('install-dialog').close(); $('entry-status').textContent = ''; $('name-input').value = ''; game.deal() }
+function deal() { $('install-dialog').close(); $('entry-status').textContent = ''; $('name-input').value = ''; game.deal() }
 $('deal-button').addEventListener('click', deal)
 $('again-button').addEventListener('click', deal)
 function reveal() { if (game.showCard()) { vibrate(12); $('card').focus({ preventScroll: true }) } }
@@ -171,12 +170,10 @@ for (const dialog of document.querySelectorAll('dialog')) {
     const bounds = dialog.getBoundingClientRect()
     if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close()
   })
-  dialog.addEventListener('close', () => { if (dialog.id === 'install-dialog') dismissInstall() })
 }
 
-function showInstall(automatic = false) {
-  if (standalone() || game.phase !== 'setup' || $('help-dialog').open || $('install-dialog').open) return
-  if (automatic && (wasDismissed() || game.names.length || document.activeElement === $('name-input'))) return
+function showInstall() {
+  if (installed || game.phase === 'deal' || $('help-dialog').open || $('install-dialog').open) return
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
   $('install-confirm').hidden = !installEvent
   $('install-instructions').replaceChildren()
@@ -200,13 +197,10 @@ window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault()
   installEvent = event
   if ($('install-dialog').open) { $('install-confirm').hidden = false; $('install-instructions').textContent = '' }
-  else showInstall(true)
 })
-window.addEventListener('appinstalled', () => { $('install-dialog').close(); $('install-open').hidden = true; dismissInstall() })
-$('install-open').hidden = standalone()
+window.addEventListener('appinstalled', () => { installed = true; $('install-dialog').close(); $('install-open').hidden = true })
 
 render()
-installTimer = setTimeout(() => showInstall(true), 1800)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {

@@ -12,6 +12,18 @@ try {
     const errors = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.goto(base)
+    await page.clock.install()
+    await page.clock.fastForward(2500)
+    assert.equal(await page.locator('#install-dialog').evaluate((dialog) => dialog.open), false, 'no popup on launch')
+    await page.evaluate(() => {
+      const event = new Event('beforeinstallprompt', { cancelable: true })
+      event.prompt = async () => {}
+      event.userChoice = Promise.resolve({ outcome: 'dismissed' })
+      window.dispatchEvent(event)
+    })
+    assert.equal(await page.locator('#install-dialog').evaluate((dialog) => dialog.open), false, 'install availability does not open a popup')
+    await page.clock.resume()
+    await page.locator('.masthead').getByRole('button', { name: 'Install app', exact: true }).click()
     await page.getByRole('dialog', { name: /Keep Spy Pass/ }).waitFor()
     await page.getByRole('button', { name: 'Dismiss install popup' }).click()
     await page.reload()
@@ -56,7 +68,6 @@ try {
     await page.close()
   }
   const page = await browser.newPage({ viewport: { width: 320, height: 568 }, reducedMotion: 'reduce' })
-  await page.addInitScript(() => localStorage.setItem('spy-pass-install-dismissed-v1', 'yes'))
   await page.clock.install()
   await page.goto(base)
   await page.getByPlaceholder('Type a name').evaluate((input) => {
@@ -88,9 +99,9 @@ try {
   await ios.getByRole('button', { name: 'Install app', exact: true }).click()
   await ios.getByText('On iPhone or iPad:', { exact: false }).waitFor()
   await ios.getByRole('button', { name: 'Not now', exact: true }).click()
-  assert.equal(await ios.evaluate(() => localStorage.getItem('spy-pass-install-dismissed-v1')), 'yes')
+  assert.equal(await ios.locator('#install-dialog').evaluate((dialog) => dialog.open), false)
   await ios.close()
-  console.log('PASS iPhone Add to Home Screen instructions and remembered dismissal')
+  console.log('PASS iPhone Add to Home Screen instructions and dismissal')
 } finally {
   await browser.close()
   await new Promise((resolve) => server.close(resolve))

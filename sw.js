@@ -1,4 +1,4 @@
-const CACHE = 'spy-pass-v1'
+const CACHE = 'spy-pass-v2'
 const ASSETS = [
   './', './index.html', './style.css', './app.js', './game.js', './manifest.webmanifest',
   './fonts/display-700.ttf', './fonts/display-900.ttf',
